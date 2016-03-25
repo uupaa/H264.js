@@ -1,1 +1,0 @@
-./make_video: line 77: MP4Box: command not found
