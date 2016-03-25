@@ -1,0 +1,84 @@
+{
+  "name": "uupaa.h264.js",
+  "version": "0.0.1",
+  "description": "H264/AVC, MPEG2-TS ByteStream, H.264 RawStream to NALUnit",
+  "url": "https://github.com/uupaa/H264.js",
+  "keywords": ["AVC", "H.264", "ByteStream", "RawStream", "NALUnit", "uupaa", "WebModule", "Unstable"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uupaa/H264.js.git"
+  },
+  "scripts": {
+    "sync": "node ../WebModule/run/sync.js; npm update; node ../WebModule/run/page.js",
+    "wiki": "node ../WebModule/run/wiki.js",
+    "min": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty",
+    "build": "node ../WebModule/run/minify.js --verbose --strict --keep --release",
+    "watch": "node ../WebModule/run/watch.js --verbose --run lint",
+    "page": "node ../WebModule/run/page.js --verbose",
+    "test": "npm run min; npm run node; npm run browser",
+    "node": "NODE_ENV=production NODE_PATH=lib node test/node/index.js",
+    "noded": "NODE_ENV=production NODE_PATH=lib node --debug-brk test/node/index.js",
+    "browser": "open http://localhost:8000/H264.js/test/browser/index.html",
+    "el": "electron test/el",
+    "nw": "nw test/nw",
+    "add-src": "node ../WebModule/run/add-src.js",
+    "add-subclass": "node ../WebModule/run/add-subclass.js",
+    "sim": "node ../WebModule/run/sim.js http://localhost:8000/H264.js/test/browser/index.html",
+    "simx": "node ../WebModule/run/sim.js stop",
+    "lint": "eslint lib/*.js",
+    "score": "node ../WebModule/run/score.js; open lint/plato/index.html",
+    "patch": "node ../WebModule/run/patch.js",
+    "setup": "node ../WebModule/run/setup.js",
+    "start": "cd ../; Python -m SimpleHTTPServer 8000 &",
+    "stop": "killall -- Python -m SimpleHTTPServer 8000; exit 0",
+    "make_assets": "cd test/assets; ./make_video; cd -",
+    "clean_assets": "cd test/assets; rm -rf ./ff; rm -rf ./js; cd -"
+  },
+  "webmodule": {
+    "develop": false,
+    "label": ["@dev"],
+    "browser": {
+      "output": "release/H264.b.min.js",
+      "source": [
+        "lib/H264.js"
+      ]
+    },
+    "worker": {
+      "output": "release/H264.w.min.js",
+      "source": [
+        "lib/H264.js"
+      ]
+    },
+    "node": {
+      "output": "release/H264.n.min.js",
+      "source": [
+        "lib/H264.js"
+      ]
+    },
+    "nw": {
+      "output": "release/H264.nw.min.js",
+      "source": [
+        "lib/H264.js"
+      ]
+    },
+    "el": {
+      "output": "release/H264.el.min.js",
+      "source": [
+        "lib/H264.js"
+      ]
+    }
+  },
+  "dependencies": {
+    "uupaa.hexdump.js": "",
+    "uupaa.nalunit.js": ""
+  },
+  "devDependencies": {
+    "uupaa.task.js": "",
+    "uupaa.fileloader.js": ""
+  },
+  "lib": "./lib/",
+  "main": "./index.js",
+  "author": "uupaa",
+  "license": "MIT",
+  "contributors": []
+}

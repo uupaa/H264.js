@@ -1,0 +1,26 @@
+## ignore the dependency modules directory
+node_modules
+
+## ignore the file that is automatically regenerated
+lint/plato/assets
+lint/plato/files
+lint/plato/*.html
+.Minify*
+release/*.min.js
+#test/index.html
+#test/node.js
+#test/nw.html
+#test/package.json
+#test/wmtools.js
+#test/worker.js
+
+## ignore the setting files
+
+## dust
+lib/*.min.js
+npm-debug.log
+
+## ignore gh-pages dir
+## $ git-new-workdir . gh-pages gh-pages
+gh-pages
+

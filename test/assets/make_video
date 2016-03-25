@@ -1,0 +1,78 @@
+mkdir ff
+mkdir ff/json
+mkdir ff/log
+mkdir js
+
+# 6つの連番のpngファイル(test00.png 〜 test05.png)から 30秒の png.all.mp4 を作成する
+# 0.2fps を指定することで1つのpngから5秒間の静止フレームを作り、それを6枚結合して30秒の動画を作る
+# サイズは 128 x 128
+# -vprofile baseline -level 3.0 でベースラインプロファイルLv3.0 にする(-coder 0 -bf 0 -level 3.0 は効かない)
+# -movflags faststart で moov の位置を調整し再生を早める
+# -pix_fmt yuv420p を付けないと再生できない mp4 が出来てしまう
+ffmpeg -y -r 0.2 -i "test0%01d.png" -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.all.mp4
+ffmpeg -y -r 0.2 -i test00.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.00.mp4
+ffmpeg -y -r 0.2 -i test01.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.01.mp4
+ffmpeg -y -r 0.2 -i test02.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.02.mp4
+ffmpeg -y -r 0.2 -i test03.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.03.mp4
+ffmpeg -y -r 0.2 -i test04.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.04.mp4
+ffmpeg -y -r 0.2 -i test05.png -an -vcodec libx264 -movflags faststart -vprofile baseline -level 3.0 -qscale:v 0 -pix_fmt yuv420p ff/png.05.mp4
+
+# png.all.mp4 から 5秒ごとの ts を作成する
+# -r 1 で 1fps を指定し、-g 1 で GOP に 1 を指定する必要がある
+# ffmpeg -y -i ff/png.all.mp4 -an -vcodec libx264 -r 1 -g 1 -flags +loop-global_header -map 0 -bsf h264_mp4toannexb -f segment -segment_format mpegts -segment_time 5 -segment_list ff/playlist.m3u8 ff/png.all.mp4.0%01d.ts
+# ここでも -vprofile baseline -level 3.0 を省略すると HighProfile になってしまう
+ffmpeg -y -i ff/png.all.mp4 -an -vcodec libx264  -vprofile baseline -level 3.0  -r 1 -g 1 -flags +loop-global_header -map 0 -bsf h264_mp4toannexb -f segment -segment_format mpegts -segment_time 5 -segment_list ff/playlist.m3u8 ff/png.all.mp4.0%01d.ts
+
+### 30 sec テスト用
+# png.all.mp4 から 30秒の ts を1つだけ作成する
+ffmpeg -y -i ff/png.all.mp4 -an -vcodec libx264  -vprofile baseline -level 3.0 -r 1 -g 1 -flags +loop-global_header -map 0 -bsf h264_mp4toannexb -f segment -segment_format mpegts -segment_time 30 -segment_list ff/30sec_playlist.m3u8 ff/30sec_png.all.mp4.0%01d.ts
+
+# ff/30sec_png.all.mp4.00.ts から ff/30sec_png.all.mp4.00.ts.mp4 を生成する
+ffmpeg -y -i ff/30sec_png.all.mp4.00.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/30sec_png.all.mp4.00.ts.mp4
+### 30 sec テスト用
+
+
+
+# ff/png.all.mp4.xx.ts から ff/png.all.mp4.xx.ts.mp4 を生成する
+# -flags +global_header は "Codec for stream 0 does not use global headers but container format requires global headers" を消すために必要となる
+# -vcodec libx264 を指定してしまうと H264の再エンコードが入るようなので、付けずに -vcodec copy を使っている
+ffmpeg -y -i ff/png.all.mp4.00.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.00.ts.mp4
+ffmpeg -y -i ff/png.all.mp4.01.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.01.ts.mp4
+ffmpeg -y -i ff/png.all.mp4.02.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.02.ts.mp4
+ffmpeg -y -i ff/png.all.mp4.03.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.03.ts.mp4
+ffmpeg -y -i ff/png.all.mp4.04.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.04.ts.mp4
+ffmpeg -y -i ff/png.all.mp4.05.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.05.ts.mp4
+
+
+# H264 raw file を作成する
+ffmpeg -y -i ff/png.00.mp4  -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 ff/png.00.mp4.264
+ffmpeg -y -i ff/png.all.mp4 -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 ff/png.all.mp4.264
+ffmpeg -y -i ff/png.all.mp4.00.ts -bsf:a aac_adtstoasc -an -vcodec copy -movflags faststart -vprofile baseline -level 3.0 -flags +global_header ff/png.all.mp4.00.ts.mp4.264
+
+
+
+
+# dump
+ffprobe -show_format  -of json ff/png.all.mp4.00.ts.mp4 > ff/json/format.json
+ffprobe -show_frames  -of json ff/png.all.mp4.00.ts.mp4 > ff/json/frame.json
+ffprobe -show_packets -of json ff/png.all.mp4.00.ts.mp4 > ff/json/packet.json
+
+#ffprobe -show_format -of json js/video.mp4 > js/format.json
+#ffprobe -show_frames -of json js/video.mp4 > js/frame.json
+#ffprobe -show_packets -of json js/video.mp4 > js/packet.json
+
+# TestA:
+#   MP4.build(MP4.parse("ff/png.all.mp4")) -> js/png.all.mp4  が Finder 上で再生できる事を確認する
+#
+# TestB:
+#   MP4.build(MP4.parse("ff/png.00.mp4")) -> js/png.00.mp4 が Finder 上で再生できる事を確認する
+#
+# TestC:
+#   MPEG2TS.parse("ff/png.all.mp4.00.ts") -> パースできる事を確認する
+#
+# TestD:
+#   MPEG2TS.parse("ff/png.all.mp4.00.ts") -> Convert() -> MP4.build() の結果が ff/png.all.mp4.00.ts.mp4 と同じになることを確認する
+
+# MP4Box で情報を出力する(要GPAC, GPACを入れるとMP4Boxコマンドも利用可能になります)
+MP4Box -info png.00.mp4 2> ff/log/png.00.mp4.MP4Box.info.txt
+

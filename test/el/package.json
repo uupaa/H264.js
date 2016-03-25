@@ -1,0 +1,10 @@
+{
+  "name": "test",
+  "version": "0.0.0",
+  "description": "test app",
+  "dependencies": {},
+  "devDependencies": {},
+  "lib": "./lib/",
+  "main": "./main.js"
+}
+

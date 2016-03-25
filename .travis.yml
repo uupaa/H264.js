@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+    - "4.1.2"
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+cache:
+    directories:
+        - node_modules
+before_script:
+    - "pwd"
+    - "cd .."
+    - "git clone https://github.com/uupaa/WebModule.git"
+    - "cd -"
+    - "npm install"
+    - "npm install uupaa.closurecompiler.js"
+    - "node node_modules/uupaa.closurecompiler.js --package"
+script:
+    - "npm run node"
+

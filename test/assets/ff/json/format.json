@@ -1,0 +1,20 @@
+{
+    "format": {
+        "filename": "ff/png.all.mp4.00.ts.mp4",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "5.000000",
+        "size": "2761",
+        "bit_rate": "4417",
+        "probe_score": 100,
+        "tags": {
+            "major_brand": "isom",
+            "minor_version": "512",
+            "compatible_brands": "isomiso2avc1mp41",
+            "encoder": "Lavf56.40.101"
+        }
+    }
+}
