@@ -1,7 +1,7 @@
 {
   "name": "uupaa.h264.js",
-  "version": "0.0.3",
-  "description": "H264/AVC, MPEG2-TS ByteStream, H.264 RawStream to NALUnit",
+  "version": "0.0.4",
+  "description": "H264/AVC, MPEG2-TS ByteStream, H.264 RawStream to NALUnit.",
   "url": "https://github.com/uupaa/H264.js",
   "keywords": ["AVC", "H.264", "ByteStream", "RawStream", "NALUnit", "uupaa", "WebModule", "Unstable"],
   "repository": {

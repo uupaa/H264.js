@@ -17,6 +17,7 @@ test/assets/ff
 test/assets/js
 
 ## ignore the setting files
+.DS_Store
 .vimrc*
 .git*
 

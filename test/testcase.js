@@ -17,7 +17,7 @@ var test = new Test(["H264"], { // Add the ModuleName to be tested here (if nece
         }
     });
 
-if (IN_BROWSER || IN_NW || IN_EL) {
+if (IN_BROWSER || IN_NW || IN_EL || IN_NODE) {
     test.add([
         testH264RawStream,
     ]);
@@ -32,7 +32,8 @@ function testH264RawStream(test, pass, miss) {
     //
     // Raw H.264 file stream ( ff/png.00.mp4.264 ) の中身を確認する
 
-    var url1 = "../assets/ff/png.00.mp4.264";
+    var url1 = IN_NODE ? "test/assets/ff/png.00.mp4.264"
+                       : "../assets/ff/png.00.mp4.264";
 
     var task = new Task("testH264RawStream", 1, function(error, buffer) {
         // --- decode Raw H.264 stream ---

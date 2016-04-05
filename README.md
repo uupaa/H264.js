@@ -2,7 +2,7 @@
 
 [![npm](https://nodei.co/npm/uupaa.h264.js.svg?downloads=true&stars=true)](https://nodei.co/npm/uupaa.h264.js/)
 
-H264/AVC, MPEG2-TS ByteStream, H.264 RawStream to NALUnit
+H264/AVC, MPEG2-TS ByteStream, H.264 RawStream to NALUnit.
 
 This module made of [WebModule](https://github.com/uupaa/WebModule).
 

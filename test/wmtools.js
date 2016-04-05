@@ -1127,6 +1127,11 @@ function Help(target,      // @arg Function|String - function or function-path o
               options) {   // @arg Object = {} - { nolink }
                            // @options.nolink Boolean = false
                            // @desc quick online help.
+    if (typeof target === "object" && target["repository"]) {
+        // var Class = { function, ... } object
+        console.info(target);
+        return;
+    }
     _if(!/string|function/.test(typeof target),     Help, "target");
     _if(!/string|undefined/.test(typeof highlight), Help, "highlight");
     options = options || {};
